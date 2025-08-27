@@ -8,4 +8,4 @@ def band_storage_gaxpy(y, Aband, x, p, q):
         alpha2 = min(n, j + q)
         beta1 = max(1, q + 2 - j)
         beta2 = beta1 + alpha2 - alpha1
-        y[alpha1:alpha2] = y[alpha1:alpha2] + Aband[beta1:beta2, j] * x[j]
+        y[alpha1:alpha2] = y[alpha1:alpha2] + Aband[beta1:beta2][j] * x[j]

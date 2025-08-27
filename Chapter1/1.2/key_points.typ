@@ -73,3 +73,63 @@ involves $2n(p+q+1)$ flops
 == 1.2.6 Diagonal Matrices
 $D in RR^(m times n)$ is diagonal, notation:
 $ D="diag"(d_1, dots, d_q), q=min{m,n} arrow.l.r.double d_i=d_(i i) $
+
+$ B=D A arrow.l.r.double B(i,:)=d_(i)dot A(i,:), i=1:m $
+$ B=A D arrow.l.r.double B(:,j)=d_(j)dot A(:,j), j=1:n $
+require $m n$ flops
+
+== 1.2.7 Symmetry
+- _symmetric_: $A^(T)=A$
+- _skew-symmetric_: $A^(T)=-A$
+- _Hermitian_: $A ^(H)=A$
+- _skew-symmetric_: $A^(H)=-A$
+
+storage can be halved:
+$ A = mat(
+  1,2,3;
+  2, 4, 5;
+  3,5,6;
+) arrow.l.r.double A."vec"=[1,2,3,4,5,6] $
+generally:
+$ A."vec"((n-j/2)(j-1)+i)=a_(i j), 1<=j<=i<=n $
+
+== 1.2.8 Permutation matrices and the identity
+- _identity matrix_: $I_n$
+- $e_i$: _i_ th column of $I_n$
+- _permutation matrix_: rows of $I_n$ reordered: using a vector to denote where the "1" occurs
+
+== 1.2.10 Working with Permutation Matrices
+$P=I _(n)(v,:)$, then:
+- $y=P x arrow.double y=x(v) arrow.double y_i=x_(v_i)$
+- $y=P ^(T) x arrow.double y(v)=x arrow.double y_(v_i)=x_i$
+
+*Note*: The inverse of a permutation matrix is its transpose
+
+No flops but moves data $=>$ contribute to execution time
+
+== 1.2.11 Three famous permutation matrices
+=== Exchange permutation
+$cal(E)_n = I_n (v,:)$ where $v=n:-1:1$
+
+Function:
+- turns vectors upside down
+
+Attribute:
+- $cal(E)_n^(T)cal(E)_n=cal(E)_n^(2)=I_n$
+=== Downshift permutation
+$cal(D)_n = I_n (v,:)$ where $v=n, 1:n-1$
+
+Function:
+- pushes the components of a vector down one notch with wraparound
+
+Attribute:
+- $cal(D)_n ^(T)$ can be called a _upstream_ permutation
+
+=== mod-p perfect shuffle permutation
+$ cal(P)_(p,r) = I_n ([(1:r:n) (2:r:n) dots (r:r:n)],:) $
+$ cal(P)_(p,r)^(T) = I_n ([(1:p:n) (2:p:n) dots (p:p:n)],:) $
+
+Function:
+- treat the length $n=p r$ vector $x$ as cards in a deck.
+- cuts the deck into $p$ equal piles
+- reassemble by taking one card from each pile in turn
